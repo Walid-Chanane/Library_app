@@ -1,0 +1,30 @@
+services:
+  postgres:
+    container_name: postgresql-library-app
+    image: postgres
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_DB: library_db
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    networks:
+      library_net
+    restart: unless-stopped
+  mail-dev:
+    container_name: library-mail-dev
+    image: maildev/maildev
+    ports:
+      - 1080:1080
+      - 1025:1025
+
+networks:
+  library_net:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
