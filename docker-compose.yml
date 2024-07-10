@@ -12,7 +12,7 @@ services:
     ports:
       - 5432:5432
     networks:
-      library_net
+      - library_net
     restart: unless-stopped
   mail-dev:
     container_name: library-mail-dev

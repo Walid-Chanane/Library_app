@@ -8,23 +8,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @Builder
-public class RegistrationRequest {
+public class AuthenticationRequest {
 
-    @NotEmpty(message = "Firstname is required!")
-    @NotBlank(message = "Firstname is required!")
-    private String firstName;
-
-    @NotEmpty(message = "Lastname is required!")
-    @NotBlank(message = "Lastname is required!")
-    private String lastName;
-
-    @NotEmpty(message = "email is required!")
-    @NotBlank(message = "email is required!")
-    @Email(message = "Incorrect email format provided")
+    @Email(message = "Incorrect email format provided!")
+    @NotEmpty(message = "Email is required!")
+    @NotBlank(message = "Email is required!")
     private String email;
 
     @NotEmpty(message = "Password is required!")
