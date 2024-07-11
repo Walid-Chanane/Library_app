@@ -111,13 +111,12 @@ public class AuthenticationService {
         return AuthenticationResponse.builder().token(jwt).build();
     }
 
-    @Transactional
     public void activateAccount(String token) throws MessagingException {
         //get the token from the database
         Token savedToken = tokenRepository.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Token not found"));
         //if the token is expired then throw an exception
-        if(savedToken.getExpiresAt().isAfter(LocalDateTime.now())) {
+        if(savedToken.getExpiresAt().isBefore(LocalDateTime.now())) {
             sendValidationEmail(savedToken.getUser());
             throw new RuntimeException("The provided token has expired, a new token has been sent to the user's email!");
         }
