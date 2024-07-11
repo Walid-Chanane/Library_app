@@ -20,7 +20,6 @@
         }
         .btn{
             background-color: #245bc6;
-            color: white;
             padding-bottom: 0;
             padding-top: 2px;
             text-align: center;
@@ -37,7 +36,7 @@
         <div><p th:text="'Dear ' + ${username} + ',' "></p></div>
         <p>Please use the following activation code to activate your account:</p>
         <div><p th:text="'Code: ' + ${activationCode}" style="font-weight: bold"></p></div>
-        <div class="btn"><a th:href="${confirmationUrl}" target="_blank">Activate your account</a></div>
+        <div class="btn"><a th:href="${confirmationUrl}" target="_blank" style="color: white;">Activate your account</a></div>
         <p>Once activated, you'll be able to log in with your new account.</p>
     </div>
 </body>
