@@ -1,5 +1,7 @@
 package com.library.backend.user;
 
+import com.library.backend.book.Book;
+import com.library.backend.history.BookTransactionHistory;
 import com.library.backend.role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -42,6 +44,12 @@ public class User implements UserDetails, Principal {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Book> books;
+
+    @OneToMany(mappedBy = "user")
+    private List<BookTransactionHistory> transactionHistory;
 
     @CreatedDate // == this attr will be automatically generated (when the user is created)
     @Column(updatable = false, nullable = false)
