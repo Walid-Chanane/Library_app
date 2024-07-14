@@ -43,6 +43,8 @@ public class BookService {
         List<BookResponse> responseBooks = books.stream()
                 .map(bookMapper::toBookResponse)
                 .toList();
+        //PageResponse is our custom Page class that's why we create a normal and complete Page class (above)
+        // and then retrieve the needed fields from it to our PageResponse to return it
         return new PageResponse<>(
                 responseBooks,
                 books.getNumber(),
@@ -87,6 +89,24 @@ public class BookService {
                 borrowedBooks.getTotalPages(),
                 borrowedBooks.isFirst(),
                 borrowedBooks.isLast()
+        );
+    }
+
+    public PageResponse<BorrowedBookResponse> findAllReturnedBooks(int page, int size, Authentication authenticatedUser) {
+        User user = (User) authenticatedUser.getPrincipal();
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdBy").descending());
+        Page<BookTransactionHistory> returnedBooks = transactionHistoryRepository.findAllReturnedBooks(pageable, user.getId());
+        List<BorrowedBookResponse> responseBooks = returnedBooks.stream()
+                .map(bookMapper::toBorrowedBookResponse)
+                .toList();
+        return new PageResponse<>(
+                responseBooks,
+                returnedBooks.getNumber(),
+                returnedBooks.getSize(),
+                returnedBooks.getTotalElements(),
+                returnedBooks.getTotalPages(),
+                returnedBooks.isFirst(),
+                returnedBooks.isLast()
         );
     }
 }
