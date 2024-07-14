@@ -1,6 +1,7 @@
 package com.library.backend.book;
 
 import com.library.backend.common.PageResponse;
+import com.library.backend.exception.OperationNotPermittedException;
 import com.library.backend.history.BookTransactionHistory;
 import com.library.backend.history.BookTransactionHistoryRepository;
 import com.library.backend.user.User;
@@ -14,6 +15,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -108,5 +110,16 @@ public class BookService {
                 returnedBooks.isFirst(),
                 returnedBooks.isLast()
         );
+    }
+
+    public Integer updateShareableStatus(Integer bookId, Authentication authenticatedUser) {
+        Book book = bookRepository.findById(bookId).orElseThrow(() -> new EntityNotFoundException("Book " + bookId + " not found"));
+        User user = (User) authenticatedUser.getPrincipal();
+        if(Objects.equals(user.getId(), book.getOwner().getId())) {
+            throw new OperationNotPermittedException("You can not update this book's shareable status!");
+        }
+        book.setShareable(!book.isShareable());
+        bookRepository.save(book);
+        return bookId;
     }
 }
