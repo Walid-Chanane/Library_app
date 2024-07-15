@@ -67,4 +67,14 @@ public class BookController {
     public ResponseEntity<Integer> updateShareableStatus(@PathVariable Integer bookId, Authentication authenticatedUser){
         return ResponseEntity.ok(bookService.updateShareableStatus(bookId, authenticatedUser));
     }
+
+    @PatchMapping("/archived/{bookId}")
+    public ResponseEntity<Integer> updateArchivedStatus(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.updateArchivedStatus(bookId, authenticatedUser));
+    }
+
+    @PostMapping("/borrow/{bookId}")
+    public ResponseEntity<Integer> borrowBook(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.borrowBook(bookId, authenticatedUser));
+    }
 }
