@@ -1,12 +1,14 @@
 package com.library.backend.book;
 
 import com.library.backend.common.PageResponse;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("books")
@@ -53,4 +55,48 @@ public class BookController {
     ){
         return ResponseEntity.ok(bookService.findAllBorrowedBooks(page, size, authenticatedUser));
     }
+
+    @GetMapping("/returned")//BorrowedBookResponse contains what we need to return
+    public ResponseEntity<PageResponse<BorrowedBookResponse>> findReturnedBooks(
+            @RequestParam(name = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size", defaultValue = "10", required = false) int size,
+            Authentication authenticatedUser
+    ){
+        return ResponseEntity.ok(bookService.findAllReturnedBooks(page, size, authenticatedUser));
+    }
+
+    @PatchMapping("/sareable/{bookId}")
+    public ResponseEntity<Integer> updateShareableStatus(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.updateShareableStatus(bookId, authenticatedUser));
+    }
+
+    @PatchMapping("/archived/{bookId}")
+    public ResponseEntity<Integer> updateArchivedStatus(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.updateArchivedStatus(bookId, authenticatedUser));
+    }
+
+    @PostMapping("/borrow/{bookId}")
+    public ResponseEntity<Integer> borrowBook(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.borrowBook(bookId, authenticatedUser));
+    }
+
+    @PatchMapping("/borrow/return/{bookId}")
+    public ResponseEntity<Integer> returnBorrowedBook(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.returnBorrowedBook(bookId, authenticatedUser));
+    }
+
+    @PatchMapping("/borrow/return/approve/{bookId}")
+    public ResponseEntity<Integer> approveReturnedBook(@PathVariable Integer bookId, Authentication authenticatedUser){
+        return ResponseEntity.ok(bookService.approveReturnedBook(bookId, authenticatedUser));
+    }
+
+    @PostMapping(value = "/cover/{bookId}", consumes = "multipart/form-data")
+    public ResponseEntity<?> uploadBookCoverPicture(@PathVariable Integer bookId,
+                                                    @Parameter
+                                                    @RequestParam("file") MultipartFile file,
+                                                    Authentication authenticatedUser){
+        bookService.uploadBookCoverPicture(bookId, file, authenticatedUser);
+        return ResponseEntity.accepted().build();
+    }
+
 }
