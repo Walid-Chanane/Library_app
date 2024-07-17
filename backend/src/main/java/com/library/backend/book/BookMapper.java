@@ -1,5 +1,6 @@
 package com.library.backend.book;
 
+import com.library.backend.file.FileUtils;
 import com.library.backend.history.BookTransactionHistory;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class BookMapper {
                 .ratedBy(book.countFeedbacks())
                 .archived(book.isArchived())
                 .shareable(book.isShareable())
-                //.cover()
+                .cover(FileUtils.readFileFromLocation(book.getBookCover()))
                 .build();
     }
 

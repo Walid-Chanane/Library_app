@@ -24,9 +24,10 @@ public interface BookTransactionHistoryRepository extends JpaRepository<BookTran
     @Query("""
     SELECT (COUNT(*) > 0) AS isBorrowed
     FROM BookTransactionHistory h
-    WHERE  h.book.id = :bookId
+    WHERE h.user.id = :userId
+    AND h.book.id = :bookId
     AND h.returnApproved = false
-    """)
+    """) // note: multiple users can have the same book
     boolean isAlreadyBorrowedByUser(Integer bookId, Integer userId);
 
     @Query("""
