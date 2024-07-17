@@ -38,7 +38,7 @@ public class Book extends BaseEntity {
     private List<Feedback> feedbacks;
 
     @OneToMany(mappedBy = "book")
-    private List<BookTransactionHistory> TransactionHistory;
+    private List<BookTransactionHistory> transactionHistory;
 
     @Transient
     public double getRate(){

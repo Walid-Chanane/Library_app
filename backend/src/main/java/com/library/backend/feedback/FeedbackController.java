@@ -1,14 +1,12 @@
 package com.library.backend.feedback;
 
+import com.library.backend.common.PageResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("feedbacks")
@@ -21,6 +19,16 @@ public class FeedbackController {
     @PostMapping
     public ResponseEntity<Integer> saveFeedback(@Valid @RequestBody FeedbackRequest request, Authentication authenticatedUser){
         return ResponseEntity.ok(feedbackService.save(request, authenticatedUser)) ;
+    }
+
+    @GetMapping("/book/{bookId}")
+    public ResponseEntity<PageResponse<FeedbackResponse>> findAllFeedbacksByBookId(
+            @PathVariable Integer bookId,
+            @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+            @RequestParam(value = "size", defaultValue = "10", required = false) int size,
+            Authentication authenticatedUser
+            ){
+        return ResponseEntity.ok(feedbackService.findAllFeedbacksByBookId(bookId, page, size, authenticatedUser));
     }
 
 }
