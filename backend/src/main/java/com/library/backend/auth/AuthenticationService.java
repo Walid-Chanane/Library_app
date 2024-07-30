@@ -9,7 +9,6 @@ import com.library.backend.user.TokenRepository;
 import com.library.backend.user.User;
 import com.library.backend.user.UserRepository;
 import jakarta.mail.MessagingException;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
