@@ -26,11 +26,11 @@ export class LoginComponent {
     this.authService.authenticate({
       body: this.authRequest
     }).subscribe({
-      next: (response): void => {
+      next: (response) => {
         this.tokenService.token = response.token as string
         this.router.navigate(['books'])
       },
-      error: (err): void => {
+      error: (err) => {
         // we can only get validation errors, there is no wrong email or password for login for example
         this.errors = err.error.validationErrors 
       }

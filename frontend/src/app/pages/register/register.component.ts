@@ -22,7 +22,19 @@ export class RegisterComponent {
     this.errors = []
     this.authService.register({
       body: this.registrationRequest
-    }).subscribe()
+    }).subscribe({
+      next: (response) => {
+        this.router.navigate(['activate_account'])
+      },
+      error: (err) => {
+        console.log(this.errors);
+        if(err.error.validationErrors){
+          this.errors = err.error.validationErrors
+        } else {
+          this.errors.push(err.error.error)
+        }
+      }
+    })
   }
 
   login(){

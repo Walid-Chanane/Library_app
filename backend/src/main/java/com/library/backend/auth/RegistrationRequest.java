@@ -16,14 +16,16 @@ public class RegistrationRequest {
 
     @NotEmpty(message = "Firstname is required!")
     @NotBlank(message = "Firstname is required!")
+    @Size(min = 3, message = "Firstname should be at least 3 characters")
     private String firstName;
 
     @NotEmpty(message = "Lastname is required!")
     @NotBlank(message = "Lastname is required!")
+    @Size(min = 3, message = "Lastname should be at least 3 characters")
     private String lastName;
 
-    @NotEmpty(message = "email is required!")
-    @NotBlank(message = "email is required!")
+    @NotEmpty(message = "Email is required!")
+    @NotBlank(message = "Email is required!")
     @Email(message = "Incorrect email format provided")
     private String email;
 
