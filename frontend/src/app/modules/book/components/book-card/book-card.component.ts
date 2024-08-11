@@ -23,7 +23,7 @@ export class BookCardComponent {
 
   get bookCover(): string | undefined {
     if(this._book.cover){
-      return 'data:image/jpg;base64, ' + this._book.cover
+      return 'data:image/jpg;base64,' + this._book.cover
     }
     return 'https://icon-library.com/images/books-icon-png/books-icon-png-29.jpg';
     // return 'https://www.freeiconspng.com/uploads/book-icon--icon-search-engine-6.png'
