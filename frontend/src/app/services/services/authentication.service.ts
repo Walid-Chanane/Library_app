@@ -74,7 +74,7 @@ export class AuthenticationService extends BaseService {
   authenticate(params: Authenticate$Params, context?: HttpContext): Observable<AuthenticationResponse> {
     return this.authenticate$Response(params, context).pipe(
       map((r: StrictHttpResponse<AuthenticationResponse>): AuthenticationResponse => r.body)
-    );
+    );// return r as AuthenticationResponse if r.body != null 
   }
 
   /** Path part for operation `activateAccount()` */

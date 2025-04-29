@@ -14,15 +14,17 @@ export interface Authenticate$Params {
 }
 
 export function authenticate(http: HttpClient, rootUrl: string, params: Authenticate$Params, context?: HttpContext): Observable<StrictHttpResponse<AuthenticationResponse>> {
-  const rb = new RequestBuilder(rootUrl, authenticate.PATH, 'post');
+  const rb = new RequestBuilder(rootUrl, authenticate.PATH, 'post'); // start building the request
   if (params) {
     rb.body(params.body, 'application/json');
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'json', accept: 'application/json', context }) //responseType:expects this response type. accept:specify that the client expects this response type. context: provides addotional metadata
   ).pipe(
-    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
+    //'r instanceof httpresponse' is a comparison, returns true or false
+    //'(r: any): r is HttpResponse<any>' if the first function returns true than r should be treated as httpresponse
+    filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse), // filter(): filters, removes unwanted responses
     map((r: HttpResponse<any>) => {
       return r as StrictHttpResponse<AuthenticationResponse>;
     })

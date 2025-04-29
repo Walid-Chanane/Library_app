@@ -84,7 +84,7 @@ public class AuthenticationService {
     private String generateActivationCode(int codeLength) {
         String codeCharacters = "0123456789";
         StringBuilder codeBuilder = new StringBuilder();
-        SecureRandom secureRandom = new SecureRandom(); //SecureRandom ensures that the randomly generated value is cryptographically secure
+        SecureRandom secureRandom = new SecureRandom(); //Se cureRandom ensures that the randomly generated value is cryptographically secure
         for (int i = 0; i < codeLength; i++) {
             int randomIndex = secureRandom.nextInt(codeCharacters.length()); // [0-9]
             codeBuilder.append(codeCharacters.charAt(randomIndex)); // randomIndex is int we need characters

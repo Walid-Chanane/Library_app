@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
-public class JwtService { //this service will generate the token, decode the token and extract information from it, validate the token ..
+public class JwtService { //this service will generate the token, decode the token and extract information from it, validate the token .
 
     //since we want these 2 attr to be different from one environment to another we will extract it in the application properties file
     @Value("${application.security.jwt.expiration}")

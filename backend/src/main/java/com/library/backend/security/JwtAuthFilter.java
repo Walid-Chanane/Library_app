@@ -30,7 +30,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                                     @NonNull HttpServletResponse response,
                                     @NonNull FilterChain filterChain) throws ServletException, IOException {
         if(request.getServletPath().contains("/api/auth")){
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, response); //if it is an auth request we don't need to verify the jwt (there's none), just go to the next filter.
             return;
         }
 
@@ -43,7 +43,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
         jwt = authHeader.substring(7); // "Bearer ".length == 7, we start after "Bearer "
         userEmail = jwtService.extractUsername(jwt);
-        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){ //securityContextHolder object that contains principal authorities ... (explanation int the first section)
+        if(userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null){ //securityContextHolder object that contains principal authorities ... (explanation int the first section) ;;; authentication == null cuz there is no sessions, so normally there is no user authenticated (?) (every request needs to be authenticated) then we will authenticate the user for the rest of the filters (line 55)
             UserDetails userDetails = userdetailsService.loadUserByUsername(userEmail); // we implemented this method in the userDetailsServiceImpl class (findByEmail)
             if(jwtService.isTokenValid(jwt, userDetails)){ // validate the user token
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()); //UserPasswordAuthenticationToken used by spring security to check and update the security context holder
